@@ -3,7 +3,7 @@
 INFLUXDB=${1}
 HOSTNAME=${2}
 DATABASE=${3}
-shift; shift
+shift; shift; shift
 INTERFACES=${@}
 
 echo hostname: ${HOSTNAME}
@@ -23,7 +23,7 @@ while true; do
     sleep 1
 
     timestamp=$(date +%s)
-    interface_stats=$(grep $interface /proc/net/dev | sed s/.*://)
+    interface_stats=$(grep ${interface} /proc/net/dev | sed s/.*://)
 
     recived_2=$(echo ${interface_stats} | awk '{print $1}')
     sent_2=$(echo ${interface_stats} | awk '{print $9}')
