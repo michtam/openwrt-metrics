@@ -2,7 +2,7 @@
 
 INFLUXDB=${1}
 HOSTNAME=${2}
-database=${3}
+DATABASE=${3}
 shift; shift
 INTERFACES=${@}
 
@@ -10,7 +10,7 @@ echo hostname: ${HOSTNAME}
 echo influx url: ${INFLUXDB}
 echo interfaces: ${INTERFACES}
 
-logger -t iface-stats "Interfaces: ${INTERFACES} Hostname: ${HOSTNAME} InfluxDB url: ${INFLUXDB}"
+logger -t iface-stats "Interfaces: ${INTERFACES} | Hostname: ${HOSTNAME} | InfluxDB url: ${INFLUXDB} | DB name: ${DATABASE}"
 
 while true; do
 
@@ -31,7 +31,7 @@ while true; do
     bytes_recv=$(( ( ${recived_2} - ${recived_1} ) ))
     bytes_sent=$(( ( ${sent_2} - ${sent_1} ) ))
 
-    curl -s -XPOST "${INFLUXDB}/write?db=${database}&precision=s" \
+    curl -s -XPOST "${INFLUXDB}/write?db=${DATABASE}&precision=s" \
       --data-binary "net,host=${HOSTNAME},interface=${interface} bytes_recv=${bytes_recv},bytes_sent=${bytes_sent} ${timestamp}"
     sleep 5
 
